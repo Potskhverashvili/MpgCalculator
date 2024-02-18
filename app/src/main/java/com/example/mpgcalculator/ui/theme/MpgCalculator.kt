@@ -15,6 +15,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -24,6 +25,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -35,7 +37,9 @@ fun MpgCalculatorApp() {
     var result by remember { mutableStateOf("") }
     var inputConvert by remember { mutableStateOf("MPG") }
     var outputConvert by remember { mutableStateOf("L/100KM") }
-    var mpgOrLit by remember { mutableStateOf("Select") }
+    var mpgOrLit by remember { mutableStateOf("MPG") }
+    var firstButtonTextSz by remember { mutableIntStateOf(17) }
+    var secondButtonTextSz by remember { mutableIntStateOf(17) }
 
     Box {
         Image(
@@ -74,7 +78,8 @@ fun MpgCalculatorApp() {
             // It shows selected convert type
             Text(
                 text = "$inputConvert to $outputConvert",
-                fontSize = 20.sp
+                fontSize = 25.sp,
+                color = Color.Blue
             )
 
             // ---------------------------- Input Value -----------------------------
@@ -83,10 +88,16 @@ fun MpgCalculatorApp() {
                 value = inputValue,
                 onValueChange = { inputValue = it },
                 singleLine = true,
-                placeholder = { Text(text = "Enter $mpgOrLit") },
+                placeholder = {
+                    Text(
+                        text = "Enter $mpgOrLit",
+                        fontWeight = FontWeight.Bold
+                    )
+                },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                textStyle = TextStyle(fontSize = 20.sp)
-            )
+                textStyle = TextStyle(fontSize = 20.sp),
+
+                )
             Spacer(modifier = Modifier.padding(20.dp))
             // ---------------------------- Buttons -----------------------------------
             Column {
@@ -96,11 +107,15 @@ fun MpgCalculatorApp() {
                         mpgOrLit = "MPG"
                         inputConvert = "MPG"
                         outputConvert = "L/100KM"
+                        firstButtonTextSz = 20
+                        secondButtonTextSz = 17
                     },
-                    modifier = Modifier.size(width = 230.dp, height = 70.dp)
+
+                    modifier = Modifier
+                        .size(width = 230.dp, height = 70.dp)
 
                 ) {
-                    Text(text = "MPG to L/100KM", fontSize = 17.sp)
+                    Text(text = "MPG to L/100KM", fontSize = firstButtonTextSz.sp)
                 }
 
                 // ----------- Second Button -----------
@@ -110,10 +125,12 @@ fun MpgCalculatorApp() {
                         mpgOrLit = "Liter"
                         inputConvert = "L/100KM"
                         outputConvert = "MPG"
+                        firstButtonTextSz = 17
+                        secondButtonTextSz = 20
                     },
                     modifier = Modifier.size(width = 230.dp, height = 70.dp)
                 ) {
-                    Text(text = "L/100KM to MPG", fontSize = 17.sp)
+                    Text(text = "L/100KM to MPG", fontSize = secondButtonTextSz.sp)
                 }
             }
 
